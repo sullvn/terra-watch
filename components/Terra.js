@@ -2,29 +2,38 @@ import initRegl from 'regl'
 
 
 const fragmentShader = `
-  #ifdef GL_ES
-  precision mediump float;
-  #endif
+#ifdef GL_ES
+precision mediump float;
+#endif
 
-  uniform vec2 resolution;
+uniform vec2 resolution;
 
-  void main() {
-    vec2 u = gl_FragCoord.xy / resolution;
+const vec3 black = vec3( 0.0 );
 
-    gl_FragColor = vec4( u.x, u.y, 0.5, 1.0 );
-  }
+void main() {
+  // Unit coordinate, [0, 1]
+  vec2 u = gl_FragCoord.xy / resolution;
+
+  // Radius from center
+  float r = distance( u, vec2( 0.5 ));
+
+  // Alpha
+  float a = 1.0 - step( 0.2, r );
+
+  gl_FragColor = vec4( black, a );
+}
 `
 
 const vertexShader = `
-  #ifdef GL_ES
-  precision mediump float;
-  #endif
+#ifdef GL_ES
+precision mediump float;
+#endif
 
-  attribute vec2 position;
+attribute vec2 position;
 
-  void main() {
-    gl_Position = vec4( position, 0.0, 1.0 );
-  }
+void main() {
+  gl_Position = vec4( position, 0.0, 1.0 );
+}
 `
 
 const attributes = {

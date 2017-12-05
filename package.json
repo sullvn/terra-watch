@@ -7,7 +7,7 @@
   "author": "Kevin Sullivan <kevin.sullivan@axolotl.industries>",
   "license": "MIT",
   "scripts": {
-    "dev": "next",
+    "develop": "next",
     "build": "next build",
     "start": "next start"
   },

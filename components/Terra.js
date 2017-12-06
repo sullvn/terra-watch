@@ -73,8 +73,8 @@ void main() {
   float a = atan( manhattan.y, manhattan.x );
 
   // Ring offset
-  float o = offset( 0.7 * r, 2.0,  a, time ) +
-            offset( 0.1 * r, 10.0, a, time / 3.0 );
+  float o = offset( 0.7 * r, 2.0,  a + r * 1.5, time )       +
+            offset( 0.1 * r, 10.0, a,           time / 3.0 );
 
   gl_FragColor = color( r + o );
 }

@@ -7,6 +7,7 @@ precision mediump float;
 #endif
 
 uniform vec2 resolution;
+uniform float time;
 
 const vec3 black = vec3( 0.0 );
 const vec2 center = vec2( 0.5 );
@@ -36,6 +37,30 @@ float offset( in float amp, in float freq, in float angle, in float time ) {
   return amp * noise( freq * vec2( angle, time ));
 }
 
+vec4 color( in float radius ) {
+  vec3 c;
+  if ( radius < 0.08 ) {
+    return vec4( vec3( 104., 123., 133. ) / 255., 1. );
+  }
+  if ( radius < 0.15 ) {
+    return vec4( vec3( 135., 152., 160. ) / 255., 1. );
+  }
+  if ( radius < 0.18 ) {
+    return vec4( vec3( 140., 158., 166. ) / 255., 1. );
+  }
+  if ( radius < 0.25 ) {
+    return vec4( vec3( 160., 180., 188. ) / 255., 1. );
+  }
+  if ( radius < 0.30 ) {
+    return vec4( vec3( 170., 186., 189. ) / 255., 1. );
+  }
+  if ( radius < 0.30 ) {
+    return vec4( vec3( 170., 186., 189. ) / 255., 1. );
+  }
+  
+  return vec4( 0. );
+}
+
 void main() {
   // Unit coordinate, [0, 1]
   vec2 u = gl_FragCoord.xy / resolution;
@@ -48,12 +73,10 @@ void main() {
   float a = atan( manhattan.y, manhattan.x );
 
   // Ring offset
-  float o = offset( 0.2, 2.0, a, 1.0 ) + offset( 0.02, 10.0, a, 1.0 );
+  float o = offset( 0.7 * r, 2.0,  a, time ) +
+            offset( 0.1 * r, 10.0, a, time / 3.0 );
 
-  // Alpha
-  float alpha = 1.0 - step( 0.2, r + o );
-
-  gl_FragColor = vec4( black, alpha );
+  gl_FragColor = color( r + o );
 }
 `
 
@@ -85,7 +108,10 @@ const attributes = {
 const uniforms = {
   resolution( context ) {
     return [ context.viewportWidth, context.viewportHeight ]
-  }
+  },
+  time({ tick }) {
+    return tick * 0.005
+  },
 }
 
 

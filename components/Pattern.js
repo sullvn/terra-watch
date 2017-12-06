@@ -39,22 +39,22 @@ float offset( in float amp, in float freq, in float angle, in float time ) {
 
 vec4 color( in float radius ) {
   vec3 c;
-  if ( radius < 0.08 ) {
+  if ( radius < 0.10 ) {
     return vec4( vec3( 104., 123., 133. ) / 255., 1. );
   }
-  if ( radius < 0.15 ) {
+  if ( radius < 0.18 ) {
     return vec4( vec3( 135., 152., 160. ) / 255., 1. );
   }
-  if ( radius < 0.18 ) {
+  if ( radius < 0.23 ) {
     return vec4( vec3( 140., 158., 166. ) / 255., 1. );
   }
-  if ( radius < 0.25 ) {
+  if ( radius < 0.30 ) {
     return vec4( vec3( 160., 180., 188. ) / 255., 1. );
   }
-  if ( radius < 0.30 ) {
+  if ( radius < 0.35 ) {
     return vec4( vec3( 170., 186., 189. ) / 255., 1. );
   }
-  if ( radius < 0.30 ) {
+  if ( radius < 0.38 ) {
     return vec4( vec3( 170., 186., 189. ) / 255., 1. );
   }
   

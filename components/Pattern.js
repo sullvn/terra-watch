@@ -33,8 +33,8 @@ float noise( in vec2 st ) {
                    dot( random2( i + vec2( 1.0, 1.0 )), f - vec2( 1.0, 1.0 )), u.x), u.y);
 }
 
-float offset( in float amp, in float freq, in float angle, in float time ) {
-  return amp * noise( freq * vec2( angle, time ));
+float offset( in float amp, in float freq, in vec2 unitVector, in float time ) {
+  return amp * noise( freq * (unitVector + time ));
 }
 
 vec4 color( in float radius ) {
@@ -65,16 +65,18 @@ void main() {
   // Unit coordinate, [0, 1]
   vec2 u = gl_FragCoord.xy / resolution;
 
-  // Radius from center
-  float r = distance( u, center );
+  // Vector from center
+  vec2 v = center - u;
 
-  // Angle in radians
-  vec2 manhattan = center - u;
-  float a = atan( manhattan.y, manhattan.x );
+  // Radius from center
+  float r = length( v );
+
+  // Unit vector
+  vec2 uv = v / r;
 
   // Ring offset
-  float o = offset( 0.7 * r, 2.0,  a + r * 1.5, time )       +
-            offset( 0.1 * r, 10.0, a,           time / 3.0 );
+  float o = offset( 0.6 * r, 2.0,  uv + vec2( 0., r * 1.5 ), time       ) +
+            offset( 0.1 * r, 10.0, uv,                       time / 3.0 );
 
   gl_FragColor = color( r + o );
 }

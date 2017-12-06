@@ -115,10 +115,10 @@ const uniforms = {
 }
 
 
-export default function startPattern() {
+export default function startPattern( ctx ) {
   // Calling the regl module with no arguments creates a full screen canvas and
   // WebGL context, and then uses this context to initialize a new REGL instance
-  const regl = initRegl()
+  const regl = initRegl( ctx )
 
   const draw = regl({
     frag: fragmentShader,

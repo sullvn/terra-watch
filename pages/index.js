@@ -1,14 +1,10 @@
 import * as React from 'react'
 
-import startTerra from '../components/Terra'
+import Face from '../components/Face'
 
 
-export default class WatchPage extends React.Component {
-  componentDidMount() {
-    startTerra()
-  }
-
-  render() {
-    return <main />
-  }
-}
+export default () => (
+  <main>
+    <Face />
+  </main>
+)

@@ -110,7 +110,7 @@ const uniforms = {
     return [ context.viewportWidth, context.viewportHeight ]
   },
   time({ tick }) {
-    return tick * 0.005
+    return tick * 0.002
   },
 }
 

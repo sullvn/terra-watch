@@ -115,7 +115,7 @@ const uniforms = {
 }
 
 
-export default function startTerra() {
+export default function startPattern() {
   // Calling the regl module with no arguments creates a full screen canvas and
   // WebGL context, and then uses this context to initialize a new REGL instance
   const regl = initRegl()

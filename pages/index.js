@@ -5,6 +5,9 @@ import Face from '../components/Face'
 import Background from '../components/Background'
 
 
+/**
+ * Overall page
+ */
 export default () => (
   <main>
     <Head>

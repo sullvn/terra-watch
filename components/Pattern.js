@@ -1,6 +1,19 @@
 import initRegl from 'regl'
 
 
+/**
+ * Pattern fragment shader
+ *
+ * A 2.5d-esque terrain created in a fragment shader. It does not rely
+ * on any triangles or other geometry.
+ *
+ * The only inputs are:
+ *
+ * - monotonically increasing time
+ * - viewport resolution
+ *
+ * Noise is created with gradient noise from 
+ */
 const fragmentShader = `
 #ifdef GL_ES
 precision mediump float;
@@ -12,6 +25,13 @@ uniform float time;
 const vec3 black = vec3( 0.0 );
 const vec2 center = vec2( 0.5 );
 
+
+// Random and noise
+//
+// Gradient noise implementation as featured in:
+//
+//    https://thebookofshaders.com/edit.php#11/2d-gnoise.frag
+//
 vec2 random2( vec2 st ){
   st = vec2( dot( st, vec2( 127.1, 311.7 )),
              dot( st, vec2( 269.5, 183.3 )));
@@ -19,8 +39,11 @@ vec2 random2( vec2 st ){
   return -1.0 + 2.0 * fract( sin( st ) * 43758.5453123 );
 }
 
-// Value Noise by Inigo Quilez - iq/2013
-// https://www.shadertoy.com/view/lsf3WH
+
+// 2D noise space
+//
+// Uses gradient noise.
+//
 float noise( in vec2 st ) {
   vec2 i = floor( st );
   vec2 f = fract( st );
@@ -33,6 +56,19 @@ float noise( in vec2 st ) {
                    dot( random2( i + vec2( 1.0, 1.0 )), f - vec2( 1.0, 1.0 )), u.x), u.y);
 }
 
+
+// Offset a point from the center
+//
+// For fun times, it depends on:
+//
+// * Unit vector from the center
+// * Time
+//
+// Ability to tweak:
+//
+// * Max amplitude (offset distance)
+// * Frequency
+//
 float offset( in float amp, in float freq, in vec2 unitVector, in float time ) {
   return amp * noise( freq * (unitVector + time ));
 }
@@ -121,6 +157,11 @@ void main() {
 }
 `
 
+// vertexShader
+//
+// Meant to draw a quad covering the screenspace. In
+// other words, let the fragment shader do it all.
+//
 const vertexShader = `
 #ifdef GL_ES
 precision mediump float;
@@ -134,6 +175,7 @@ void main() {
 `
 
 const attributes = {
+  // Screen quad
   position: [
     [-1, -1],
     [-1,  1],
@@ -150,6 +192,7 @@ const uniforms = {
   resolution( context ) {
     return [ context.viewportWidth, context.viewportHeight ]
   },
+  // Have animation time accumulate with time and mouse location
   time({ tick }, { mouseX, mouseY }) {
     return tick * 0.001 + (mouseX + mouseY) * 0.001
   },
@@ -169,7 +212,7 @@ export default function startPattern( ctx ) {
     uniforms,
   })
 
-
+  // Mouse position listening
   const mouse = { x: 0, y: 0 }
   window.addEventListener( 'mousemove', ({ screenX, screenY }) => {
     mouse.x = screenX

@@ -4,6 +4,11 @@ import * as React from 'react'
 const MARGIN = '120px'
 
 
+/**
+ * Background
+ *
+ * Just a rectangle to contrast with the watch.
+ */
 export default () => (
   <div style={ backgroundStyle } />
 )

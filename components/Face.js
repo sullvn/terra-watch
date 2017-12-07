@@ -5,16 +5,27 @@ import HourDot from './HourDot'
 import pattern from './pattern'
 
 
+// Constants
 const LARGE_DOTS = [ 0, 3, 6, 9 ]
 const SMALL_DOTS = [ 1, 2, 4, 5, 7, 8, 10, 11 ]
 
 
+/**
+ * Watch
+ *
+ * A 2D watch combining a WebGL canvas for the pattern combined
+ * with SVG watch parts. 
+ */
 export default class Watch extends React.Component {
   state = {
     time: new Date(),
   }
 
   componentWillMount() {
+    // Update watch time
+    // `requestAnimationFrame` is overall better for animations,
+    // but this is a quick method to throttle it for this
+    // assignment. We don't need to update 60 times a second!
     this.interval = setInterval(
       () => {
         this.setState({ time: new Date() })

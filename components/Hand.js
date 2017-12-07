@@ -1,6 +1,13 @@
 import * as React from 'react'
 
 
+/**
+ * Hand
+ *
+ * Just an SVG watch hand that rotates around the center.
+ *
+ * Progress is within [ 0, 1 ].
+ */
 const Hand = ({ progress, length }) => (
   <polygon
     points={ `

@@ -42,9 +42,10 @@ bool isShadow( in vec2 uv, in float r ) {
   float a = atan( uv.y, uv.x );
 
   // Only include top-left third slice of clock
-  if ( a < -2.3 || 0.7 < a ) {
+  if ( a < -3.2 || 1.3 < a ) {
     return false;
   }
+
   if ( 0.098 < r && r < 0.10 ) {
     return true;
   }
@@ -55,9 +56,6 @@ bool isShadow( in vec2 uv, in float r ) {
     return true;
   }
   if ( 0.298 < r && r < 0.30 ) {
-    return true;
-  }
-  if ( 0.348 < r && r < 0.35 ) {
     return true;
   }
   if ( 0.378 < r && r < 0.38 ) {
@@ -152,8 +150,8 @@ const uniforms = {
   resolution( context ) {
     return [ context.viewportWidth, context.viewportHeight ]
   },
-  time({ tick }) {
-    return tick * 0.002
+  time({ tick }, { mouseX, mouseY }) {
+    return tick * 0.001 + (mouseX + mouseY) * 0.001
   },
 }
 
@@ -171,6 +169,13 @@ export default function startPattern( ctx ) {
     uniforms,
   })
 
+
+  const mouse = { x: 0, y: 0 }
+  window.addEventListener( 'mousemove', ({ screenX, screenY }) => {
+    mouse.x = screenX
+    mouse.y = screenY
+  })
+
   regl.frame(({ time }) => {
     // Clear contents of the drawing buffer
     regl.clear({
@@ -179,6 +184,9 @@ export default function startPattern( ctx ) {
     })
 
     // Draw a triangle using the command defined above
-    draw()
+    draw({
+      mouseX: mouse.x,
+      mouseY: mouse.y,
+    })
   })
 }

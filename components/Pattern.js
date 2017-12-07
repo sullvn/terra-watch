@@ -37,29 +37,67 @@ float offset( in float amp, in float freq, in vec2 unitVector, in float time ) {
   return amp * noise( freq * (unitVector + time ));
 }
 
-vec4 color( in float radius ) {
+
+bool isShadow( in vec2 uv, in float r ) {
+  float a = atan( uv.y, uv.x );
+
+  // Only include top-left third slice of clock
+  if ( a < -2.3 || 0.7 < a ) {
+    return false;
+  }
+  if ( 0.098 < r && r < 0.10 ) {
+    return true;
+  }
+  if ( 0.178 < r && r < 0.18 ) {
+    return true;
+  }
+  if ( 0.228 < r && r < 0.23 ) {
+    return true;
+  }
+  if ( 0.298 < r && r < 0.30 ) {
+    return true;
+  }
+  if ( 0.348 < r && r < 0.35 ) {
+    return true;
+  }
+  if ( 0.378 < r && r < 0.38 ) {
+    return true;
+  }
+}
+
+
+vec4 color( in vec2 uv, in float r ) {
   vec3 c;
-  if ( radius < 0.10 ) {
-    return vec4( vec3( 104., 123., 133. ) / 255., 1. );
+
+  if ( r < 0.10 ) {
+    c = vec3( 104., 123., 133. );
   }
-  if ( radius < 0.18 ) {
-    return vec4( vec3( 135., 152., 160. ) / 255., 1. );
+  if ( 0.10 < r && r < 0.18 ) {
+    c = vec3( 135., 152., 160. );
   }
-  if ( radius < 0.23 ) {
-    return vec4( vec3( 140., 158., 166. ) / 255., 1. );
+  if ( 0.18 < r && r < 0.23 ) {
+    c = vec3( 140., 158., 166. );
   }
-  if ( radius < 0.30 ) {
-    return vec4( vec3( 160., 180., 188. ) / 255., 1. );
+  if ( 0.23 < r && r < 0.30 ) {
+    c = vec3( 160., 180., 188. );
   }
-  if ( radius < 0.35 ) {
-    return vec4( vec3( 170., 186., 189. ) / 255., 1. );
+  if ( 0.30 < r && r < 0.35 ) {
+    c = vec3( 170., 186., 189. );
   }
-  if ( radius < 0.38 ) {
-    return vec4( vec3( 170., 186., 189. ) / 255., 1. );
+  if ( 0.35 < r && r < 0.38 ) {
+    c = vec3( 170., 186., 189. );
+  }
+  if ( 0.38 < r ) {
+    return vec4( 0. );
+  }
+
+  if ( isShadow( uv, r )) {
+    c *= 0.9;
   }
   
-  return vec4( 0. );
+  return vec4( c / 255., 1. );
 }
+
 
 void main() {
   // Unit coordinate, [0, 1]
@@ -78,7 +116,10 @@ void main() {
   float o = offset( 0.6 * r, 2.0,  uv + vec2( 0., r * 1.5 ), time       ) +
             offset( 0.1 * r, 10.0, uv,                       time / 3.0 );
 
-  gl_FragColor = color( r + o );
+  // Noisey radius
+  float nr = r + o;
+
+  gl_FragColor = color( uv, nr );
 }
 `
 

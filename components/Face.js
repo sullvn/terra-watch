@@ -1,9 +1,10 @@
 import * as React from 'react'
 
+import Hand, { handStyle } from './Hand'
+import HourDot from './HourDot'
 import pattern from './pattern'
 
 
-const DOT_SPACING = 0.5 - 0.03
 const LARGE_DOTS = [ 0, 3, 6, 9 ]
 const SMALL_DOTS = [ 1, 2, 4, 5, 7, 8, 10, 11 ]
 
@@ -64,7 +65,10 @@ export default class Watch extends React.Component {
 
 
 const containerStyle = {
-  position: 'relative',
+  position: 'absolute',
+  right: '50px',
+  bottom: '50px',
+
   width: '400px',
   height: '400px',
 
@@ -91,38 +95,4 @@ const canvasStyle = {
 
   height: '100%',
   width: '100%',
-}
-
-
-const HourDot = ({ rad, size }) => {
-  const x = Math.cos( rad ) * DOT_SPACING + 0.5
-  const y = Math.sin( rad ) * DOT_SPACING + 0.5
-
-  return (
-    <circle
-      cx={ x } cy={ y } r={ size }
-      style={ dotStyle }
-    />
-  )
-}
-
-const dotStyle = {
-  color: 'black',
-  opacity: 0.6,
-}
-
-
-
-const Hand = ({ progress, length }) => (
-  <polygon
-    points={ `
-      0.5,0.5 0.49,${ 0.55 - length } 0.5,${ 0.5 - length } 0.51,${ 0.55 - length }
-    ` }
-    style={ handStyle }
-    transform={ `rotate(${ progress * 360 } 0.5 0.5)` }
-  />
-)
-
-const handStyle = {
-  fill: 'rgb(74, 93, 103)',
 }

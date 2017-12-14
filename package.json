@@ -1,9 +1,8 @@
 {
-  "name": "3d-watch",
-  "version": "0.0.0",
-  "description": "A 3D watch",
-  "main": "index.js",
-  "repository": "https://github.com/awfulaxolotl/3d-watch",
+  "name": "terra-watch",
+  "version": "1.0.0",
+  "description": "A watch in SVG and WebGL",
+  "repository": "https://github.com/awfulaxolotl/terra-watch",
   "author": "Kevin Sullivan <kevin.sullivan@axolotl.industries>",
   "license": "MIT",
   "scripts": {

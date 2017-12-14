@@ -12,7 +12,6 @@ import initRegl from 'regl'
  * - monotonically increasing time
  * - viewport resolution
  *
- * Noise is created with gradient noise from 
  */
 const fragmentShader = `
 #ifdef GL_ES
@@ -192,6 +191,7 @@ const uniforms = {
   resolution( context ) {
     return [ context.viewportWidth, context.viewportHeight ]
   },
+
   // Have animation time accumulate with time and mouse location
   time({ tick }, { mouseX, mouseY }) {
     return tick * 0.001 + (mouseX + mouseY) * 0.001
@@ -226,7 +226,6 @@ export default function startPattern( ctx ) {
       depth: 1
     })
 
-    // Draw a triangle using the command defined above
     draw({
       mouseX: mouse.x,
       mouseY: mouse.y,

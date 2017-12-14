@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A watch in SVG and WebGL",
   "repository": "https://github.com/awfulaxolotl/terra-watch",
+  "homepage": "https://awfulaxolotl.github.io/terra-watch/",
   "author": "Kevin Sullivan <kevin.sullivan@axolotl.industries>",
   "license": "MIT",
   "scripts": {
